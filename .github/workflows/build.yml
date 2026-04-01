@@ -70,10 +70,10 @@ jobs:
         run: ls -R artifacts
 
       - name: Create Release
-        uses: softprops/action-gh-release@v2.6.1
+        uses: softprops/action-gh-release@v2.8.0
         with:
           files: artifacts/**/*
-          generate_notes: true
+          generate_release_notes: true
           draft: true
           fail_on_unmatched_files: false
         env:
