@@ -89,8 +89,8 @@ jobs:
           CURRENT_TAG="${{ steps.get_tag.outputs.tag }}"
           echo "Cleaning up old drafts for tag: $CURRENT_TAG"
           
-          # 获取所有草稿发布
-          drafts=$(gh release list --draft --json tagName,databaseId -q '.[] | "\(.tagName)|\(.databaseId)"')
+          # 获取所有草稿发布（通过 JSON 字段过滤 draft == true）
+          drafts=$(gh release list --json tagName,databaseId,draft -q '.[] | select(.draft == true) | "\(.tagName)|\(.databaseId)"')
           
           for draft in $drafts; do
             draft_tag="${draft%%|*}"
