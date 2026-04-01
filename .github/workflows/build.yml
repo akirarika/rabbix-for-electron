@@ -72,12 +72,45 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R artifacts
 
+      - name: Get latest tag
+        id: get_tag
+        run: |
+          # 获取当前触发的 tag，如果没有则使用 timestamp
+          TAG=${GITHUB_REF#refs/tags/}
+          if [ -z "$TAG" ] || [ "$TAG" = "main" ]; then
+            TAG="draft-$(date +%Y%m%d-%H%M%S)"
+          fi
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Cleanup old draft releases
+        run: |
+          # 删除同名 tag 的所有旧草稿，避免重复资产问题
+          CURRENT_TAG="${{ steps.get_tag.outputs.tag }}"
+          echo "Cleaning up old drafts for tag: $CURRENT_TAG"
+          
+          # 获取所有草稿发布
+          drafts=$(gh release list --draft --json tagName,databaseId -q '.[] | "\(.tagName)|\(.databaseId)"')
+          
+          for draft in $drafts; do
+            draft_tag="${draft%%|*}"
+            draft_id="${draft##*|}"
+            if [ "$draft_tag" = "$CURRENT_TAG" ]; then
+              echo "Deleting duplicate draft: $draft_tag (ID: $draft_id)"
+              gh release delete $draft_id --cleanup-assets --yes || true
+            fi
+          done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           files: artifacts/**/*
           generate_notes: true
           draft: true
+          fail_on_unmatched_files: false
+          make_latest: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
