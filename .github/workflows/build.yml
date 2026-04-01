@@ -33,12 +33,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24'
+        uses: actions/setup-node@v6
 
       - name: Install dependencies
         run: npm ci
@@ -47,10 +45,9 @@ jobs:
         run: npm run make --platform=${{ matrix.platform }} --arch=${{ matrix.arch }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.platform }}-${{ matrix.arch }}
           path: out/make/**/*
@@ -62,49 +59,18 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Download all artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: artifacts
 
       - name: Display structure of downloaded files
         run: ls -R artifacts
 
-      - name: Get latest tag
-        id: get_tag
-        run: |
-          # 获取当前触发的 tag，如果没有则使用 timestamp
-          TAG=${GITHUB_REF#refs/tags/}
-          if [ -z "$TAG" ] || [ "$TAG" = "main" ]; then
-            TAG="draft-$(date +%Y%m%d-%H%M%S)"
-          fi
-          echo "tag=$TAG" >> $GITHUB_OUTPUT
-        shell: bash
-
-      - name: Cleanup old draft releases
-        run: |
-          # 删除同名 tag 的所有旧草稿，避免重复资产问题
-          CURRENT_TAG="${{ steps.get_tag.outputs.tag }}"
-          echo "Cleaning up old drafts for tag: $CURRENT_TAG"
-          
-          # 获取所有草稿发布（通过 JSON 字段过滤 draft == true）
-          drafts=$(gh release list --json tagName,databaseId,draft -q '.[] | select(.draft == true) | "\(.tagName)|\(.databaseId)"')
-          
-          for draft in $drafts; do
-            draft_tag="${draft%%|*}"
-            draft_id="${draft##*|}"
-            if [ "$draft_tag" = "$CURRENT_TAG" ]; then
-              echo "Deleting duplicate draft: $draft_tag (ID: $draft_id)"
-              gh release delete $draft_id --cleanup-assets --yes || true
-            fi
-          done
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Create Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v2.6.1
         with:
           files: artifacts/**/*
           generate_notes: true
@@ -112,4 +78,3 @@ jobs:
           fail_on_unmatched_files: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
