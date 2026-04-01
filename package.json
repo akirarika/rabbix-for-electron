@@ -1,0 +1,35 @@
+{
+    "name": "rabbix",
+    "productName": "rabbix",
+    "version": "0.0.0",
+    "description": "My Electron application description",
+    "main": "index.js",
+    "type": "module",
+    "private": true,
+    "scripts": {
+        "start": "electron-forge start",
+        "package": "electron-forge package",
+        "make": "electron-forge make",
+        "publish": "electron-forge publish",
+        "lint": "echo \"No linting configured\""
+    },
+    "keywords": [],
+    "author": {
+        "name": "akirarika",
+        "email": "33272184+akirarika@users.noreply.github.com"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "electron-squirrel-startup": "1.0.1"
+    },
+    "devDependencies": {
+        "@electron-forge/cli": "7.11.1",
+        "@electron-forge/maker-dmg": "7.11.1",
+        "@electron-forge/maker-zip": "7.11.1",
+        "@electron-forge/plugin-auto-unpack-natives": "7.11.1",
+        "@electron-forge/plugin-fuses": "7.11.1",
+        "@electron-forge/publisher-github": "7.11.1",
+        "@electron/fuses": "1.8.0",
+        "electron": "41.1.0"
+    }
+}
