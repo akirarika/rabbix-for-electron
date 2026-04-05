@@ -4,7 +4,7 @@ import { FuseV1Options, FuseVersion } from '@electron/fuses';
 export default {
   packagerConfig: {
     asar: true,
-    icon: './src/favicon.png',
+    icon: './src/favicon',
     osxSign: {},
     appBundleId: 'link.kecream.app',
   },
@@ -36,7 +36,6 @@ export default {
       platforms: ['darwin'],
       config: (arch) => ({
         name: 'rabbix',
-        icon: './src/favicon.icns',
         format: 'ULFO',
         additionalDMGOptions: {
           window: {
