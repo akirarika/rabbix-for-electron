@@ -1,0 +1,12 @@
+const meta = {};
+async function handler(context, params) {
+  const message = `Hello world! UwU`;
+  return {
+    message
+  };
+}
+export {
+  handler,
+  meta
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguYWN0aW9uLUhCN1FGOVAyLmpzIiwic291cmNlcyI6WyIuLi8uLi9hcHAvbW9kdWxlcy9pbmRleC5hY3Rpb24udHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHR5cGUgeyBNaWxraW9Db250ZXh0LCBNaWxraW9NZXRhIH0gZnJvbSAnLi4vLi4vLm1pbGtpby9kZWNsYXJlcyc7XHJcblxyXG5leHBvcnQgY29uc3QgbWV0YTogTWlsa2lvTWV0YSA9IHt9O1xyXG5cclxuZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIGhhbmRsZXIoY29udGV4dDogTWlsa2lvQ29udGV4dCwgcGFyYW1zOiB7fSkge1xyXG4gIGNvbnN0IG1lc3NhZ2UgPSBgSGVsbG8gd29ybGQhIFV3VWA7XHJcblxyXG4gIHJldHVybiB7XHJcbiAgICBtZXNzYWdlLFxyXG4gIH07XHJcbn1cclxuIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUVPLE1BQU0sT0FBbUIsQ0FBQTtBQUVoQyxlQUFzQixRQUFRLFNBQXdCLFFBQVk7QUFDaEUsUUFBTSxVQUFVO0FBRWhCLFNBQU87QUFBQSxJQUNMO0FBQUEsRUFBQTtBQUVKOyJ9

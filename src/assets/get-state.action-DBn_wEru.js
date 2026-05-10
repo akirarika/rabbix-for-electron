@@ -1,0 +1,17 @@
+import { a as getWebviewWindow } from "../index.js";
+import "node:http";
+import "fs/promises";
+import "path";
+import "fs";
+import "url";
+import "node:process";
+const meta = {};
+async function handler(_context, _params) {
+  const webview = await getWebviewWindow();
+  return { isMaximized: webview.isMaximized() };
+}
+export {
+  handler,
+  meta
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZ2V0LXN0YXRlLmFjdGlvbi1EQm5fd0VydS5qcyIsInNvdXJjZXMiOlsiLi4vLi4vYXBwL21vZHVsZXMvd2luZG93L2dldC1zdGF0ZS5hY3Rpb24udHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHR5cGUgeyBNaWxraW9Db250ZXh0LCBNaWxraW9NZXRhIH0gZnJvbSAnLi4vLi4vLi4vLm1pbGtpby9kZWNsYXJlcy50cyc7XHJcbmltcG9ydCB7IGdldFdlYnZpZXdXaW5kb3cgfSBmcm9tICcuLi8uLi91dGlscy9lbGVjdHJvbi50cyc7XHJcblxyXG5leHBvcnQgY29uc3QgbWV0YTogTWlsa2lvTWV0YSA9IHt9O1xyXG5cclxudHlwZSBQYXJhbXMgPSBSZWNvcmQ8c3RyaW5nLCBuZXZlcj47XHJcblxyXG50eXBlIFJlc3VsdCA9IHtcclxuICBpc01heGltaXplZDogYm9vbGVhbjtcclxufTtcclxuXHJcbmV4cG9ydCBhc3luYyBmdW5jdGlvbiBoYW5kbGVyKFxyXG4gIF9jb250ZXh0OiBNaWxraW9Db250ZXh0LFxyXG4gIF9wYXJhbXM6IFBhcmFtcyxcclxuKTogUHJvbWlzZTxSZXN1bHQ+IHtcclxuICBjb25zdCB3ZWJ2aWV3ID0gYXdhaXQgZ2V0V2Vidmlld1dpbmRvdygpO1xyXG4gIHJldHVybiB7IGlzTWF4aW1pemVkOiB3ZWJ2aWV3LmlzTWF4aW1pemVkKCkgfTtcclxufVxyXG4iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztBQUdPLE1BQU0sT0FBbUIsQ0FBQTtBQVFoQyxlQUFzQixRQUNwQixVQUNBLFNBQ2lCO0FBQ2pCLFFBQU0sVUFBVSxNQUFNLGlCQUFBO0FBQ3RCLFNBQU8sRUFBRSxhQUFhLFFBQVEsY0FBWTtBQUM1QzsifQ==
