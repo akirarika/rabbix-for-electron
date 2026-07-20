@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src data:; style-src 'unsafe-inline';">
+  <title>客户端版本过旧</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(135deg, #faf7f2 0%, #f0ebe1 100%);
+      color: #2a2622;
+    }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .card {
+      max-width: 480px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 40px 32px 32px;
+      box-shadow: 0 12px 40px rgba(80, 60, 40, 0.08), 0 2px 8px rgba(80, 60, 40, 0.04);
+      text-align: center;
+    }
+    .icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff4e6;
+      border-radius: 24px;
+    }
+    .icon svg { width: 44px; height: 44px; }
+    .title {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #1a1714;
+    }
+    .desc {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #6b6259;
+      margin-bottom: 28px;
+    }
+    .desc strong { color: #c8533a; font-weight: 500; }
+    .action {
+      display: inline-block;
+      padding: 12px 32px;
+      background: #1a1714;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+    .action:hover { background: #2a2622; transform: translateY(-1px); }
+    .action:active { transform: translateY(0); }
+    .footer {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #a89e92;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C7.6 2 4 5.6 4 10c0 2.4 1.1 4.6 2.8 6L6 21l3.5-2.2c.8.2 1.6.4 2.5.4s1.7-.1 2.5-.4L18 21l-.8-5c1.7-1.4 2.8-3.6 2.8-6 0-4.4-3.6-8-8-8z" fill="#c8533a"/>
+        <circle cx="9" cy="10" r="1.3" fill="#ffffff"/>
+        <circle cx="15" cy="10" r="1.3" fill="#ffffff"/>
+        <path d="M9.5 13.5c.8.8 4.2.8 5 0" stroke="#ffffff" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+      </svg>
+    </div>
+    <h1 class="title">客户端版本过旧</h1>
+    <p class="desc">
+      您当前的客户端版本已<strong>严重滞后</strong>，继续使用可能产生数据兼容性问题。<br>
+      请前往官网下载最新版本后继续使用。
+    </p>
+    <a href="https://kecream.cn/download" class="action" id="download-link">前往官网下载</a>
+    <p class="footer">如有疑问请联系客服</p>
+  </div>
+  <script>
+    // 通过 file:// 加载，链接默认在当前窗口打开会导致空白页；
+    // 这里阻止默认行为，由 Electron 的 setWindowOpenHandler / will-navigate 拦截后用系统浏览器打开
+    document.getElementById('download-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.open(this.href);
+    });
+  </script>
+</body>
+</html>

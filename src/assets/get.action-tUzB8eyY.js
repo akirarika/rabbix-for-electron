@@ -1,0 +1,23 @@
+import { b as useElectronStates } from "../index.js";
+import "node:http";
+import "fs/promises";
+import "path";
+import "fs";
+import "url";
+import "crypto";
+import "child_process";
+import "node:crypto";
+import "node:process";
+const meta = {};
+async function handler(context, params) {
+  const electronStates = await useElectronStates();
+  return {
+    launchAtStartup: electronStates.states.launchAtStartup,
+    runInBackground: electronStates.states.runInBackground
+  };
+}
+export {
+  handler,
+  meta
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZ2V0LmFjdGlvbi10VXpCOGV5WS5qcyIsInNvdXJjZXMiOlsiLi4vLi4vYXBwL21vZHVsZXMvZGVza3RvcC1zZXR0aW5nL2dldC5hY3Rpb24udHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHR5cGUgeyBNaWxraW9Db250ZXh0LCBNaWxraW9NZXRhIH0gZnJvbSAnLi4vLi4vLi4vLm1pbGtpby9kZWNsYXJlcy50cyc7XG5pbXBvcnQgeyB1c2VFbGVjdHJvblN0YXRlcyB9IGZyb20gJy4uLy4uL3V0aWxzL2VsZWN0cm9uLXN0YXRlcy50cyc7XG5cbmV4cG9ydCBjb25zdCBtZXRhOiBNaWxraW9NZXRhID0ge307XG5cbnR5cGUgUGFyYW1zID0ge307XG5cbnR5cGUgUmVzdWx0ID0ge1xuICBsYXVuY2hBdFN0YXJ0dXA6IGJvb2xlYW47XG4gIHJ1bkluQmFja2dyb3VuZDogYm9vbGVhbjtcbn07XG5cbmV4cG9ydCBhc3luYyBmdW5jdGlvbiBoYW5kbGVyKGNvbnRleHQ6IE1pbGtpb0NvbnRleHQsIHBhcmFtczogUGFyYW1zKTogUHJvbWlzZTxSZXN1bHQ+IHtcbiAgY29uc3QgZWxlY3Ryb25TdGF0ZXMgPSBhd2FpdCB1c2VFbGVjdHJvblN0YXRlcygpO1xuICByZXR1cm4ge1xuICAgIGxhdW5jaEF0U3RhcnR1cDogZWxlY3Ryb25TdGF0ZXMuc3RhdGVzLmxhdW5jaEF0U3RhcnR1cCxcbiAgICBydW5JbkJhY2tncm91bmQ6IGVsZWN0cm9uU3RhdGVzLnN0YXRlcy5ydW5JbkJhY2tncm91bmQsXG4gIH07XG59XG4iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7OztBQUdPLE1BQU0sT0FBbUIsQ0FBQTtBQVNoQyxlQUFzQixRQUFRLFNBQXdCLFFBQWlDO0FBQ3JGLFFBQU0saUJBQWlCLE1BQU0sa0JBQUE7QUFDN0IsU0FBTztBQUFBLElBQ0wsaUJBQWlCLGVBQWUsT0FBTztBQUFBLElBQ3ZDLGlCQUFpQixlQUFlLE9BQU87QUFBQSxFQUFBO0FBRTNDOyJ9
