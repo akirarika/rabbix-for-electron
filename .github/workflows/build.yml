@@ -1,0 +1,100 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            platform: win32
+            arch: x64
+          - os: macos-latest
+            platform: darwin
+            arch: x64
+          - os: macos-latest
+            platform: darwin
+            arch: arm64
+          - os: ubuntu-latest
+            platform: linux
+            arch: x64
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run make --platform=${{ matrix.platform }} --arch=${{ matrix.arch }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.platform }}-${{ matrix.arch }}
+          path: out/make/**/*
+          retention-days: 3
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v8
+        with:
+          path: artifacts
+
+      - name: Display structure of downloaded files
+        run: ls -R artifacts
+
+      - name: Rename macOS artifacts to include arch
+        run: |
+          for dir in artifacts/darwin-*; do
+            [ -d "$dir" ] || continue
+            arch=$(basename "$dir" | sed 's/darwin-//')
+            find "$dir" -name '*.dmg' -exec mv {} "$dir/rabbix-darwin-${arch}.dmg" \;
+            find "$dir" -name '*.zip' -exec mv {} "$dir/rabbix-darwin-${arch}.zip" \;
+          done
+
+      - name: Clean existing release assets
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          RELEASE_ID=$(gh api repos/${{ github.repository }}/releases/tags/${{ github.ref_name }} --jq '.id' 2>/dev/null || echo "")
+          if [ -n "$RELEASE_ID" ]; then
+            gh api repos/${{ github.repository }}/releases/$RELEASE_ID/assets --jq '.[].id' | \
+              xargs -I{} gh api -X DELETE repos/${{ github.repository }}/releases/assets/{} 2>/dev/null || true
+          fi
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: artifacts/**/*
+          generate_release_notes: true
+          draft: true
+          fail_on_unmatched_files: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
